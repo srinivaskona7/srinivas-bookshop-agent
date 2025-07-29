@@ -1,0 +1,27 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+processors:
+  batch:
+
+
+exporters:
+  # Use the OTLP exporter to forward spans to Jaeger. Jaeger all‑in‑one exposes
+  # an OTLP gRPC endpoint on port 4317 when COLLECTOR_OTLP_ENABLED=true. The
+  # collector will send spans via gRPC to Jaeger for storage and visualization.
+  otlp:
+    endpoint: jaeger:4317
+    tls:
+      insecure: true
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp]

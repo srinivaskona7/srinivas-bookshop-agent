@@ -1,0 +1,14 @@
+{
+  "name": "srinivas-bookshop-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for Srinivas Bookshop",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "latest"
+  }
+}

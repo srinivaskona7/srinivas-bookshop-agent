@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Srinivas Bookshop</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+</head>
+<body class="dashboard">
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="nav-left">
+            <h1>Srinivas Bookshop</h1>
+        </div>
+        
+        <div class="nav-center">
+            <button id="rolesBtn" class="nav-btn admin-only">Roles</button>
+            <button id="addBookBtn" class="nav-btn admin-only">Add Book</button>
+            <button id="allUsersBtn" class="nav-btn admin-only">All Users</button>
+        </div>
+        
+        <div class="nav-right">
+            <span id="healthBadge" class="health-badge unhealthy">🔴</span>
+            <div id="userInfo" class="user-info">
+                <img id="userAvatar" src="images/default-avatar.png" alt="Profile Picture" class="user-avatar">
+                <span id="userName">User</span>
+            </div>
+            <!-- Logout button -->
+            <button id="logoutBtn" class="nav-btn">Logout</button>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Welcome Section -->
+        <section id="welcomeSection" class="welcome-section">
+            <div class="welcome-banner">
+                <h2>Welcome to Your Dashboard</h2>
+                <p>Discover and explore our collection of books</p>
+            </div>
+        </section>
+        
+        <!-- Books Section -->
+        <section class="books-section">
+            <h3>Available Books</h3>
+            <div id="booksGrid" class="books-grid">
+                <!-- Books will be loaded dynamically -->
+            </div>
+        </section>
+        
+        <!-- Admin Panels -->
+        <div id="rolesPanel" class="admin-panel hidden">
+            <h3>Manage User Roles</h3>
+            <div class="roles-content">
+                <div class="form-group">
+                    <label for="userSelect">Select User:</label>
+                    <select id="userSelect">
+                        <option value="">Choose a user...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="roleSelect">Role:</label>
+                    <select id="roleSelect">
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <button id="updateRoleBtn" class="btn btn-primary">Update Role</button>
+            </div>
+        </div>
+        
+        <div id="addBookPanel" class="admin-panel hidden">
+            <h3>Add New Book</h3>
+            <form id="addBookForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="bookTitle">Title</label>
+                        <input type="text" id="bookTitle" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookAuthor">Author</label>
+                        <input type="text" id="bookAuthor" name="author" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="bookDescription">Description</label>
+                    <textarea id="bookDescription" name="description" rows="3" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="bookPrice">Price ($)</label>
+                    <input type="number" id="bookPrice" name="price" step="0.01" min="0" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="coverImage">Cover Image</label>
+                        <input type="file" id="coverImage" name="cover" accept="image/*" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pdfFile">PDF File</label>
+                        <input type="file" id="pdfFile" name="pdf" accept=".pdf" required>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Add Book</button>
+            </form>
+        </div>
+        
+        <div id="allUsersPanel" class="admin-panel hidden">
+            <h3>All Users</h3>
+            <div class="search-box">
+                <input type="text" id="userSearch" placeholder="Search users...">
+            </div>
+            <div class="users-table-container">
+                <table class="users-table">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Created</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                        <!-- Users will be loaded dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Profile Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Profile</h3>
+                <span id="closeModal" class="close">&times;</span>
+            </div>
+            
+            <div class="modal-body">
+                <div class="profile-avatar-section">
+                    <img id="profileAvatar" src="images/default-avatar.png" alt="Profile Picture" class="profile-avatar">
+                    <button id="changePhotoBtn" class="btn btn-secondary">Change Photo</button>
+                    <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+                    
+                    <!-- Cropper Container -->
+                    <div id="cropperContainer" class="cropper-container" style="display: none;">
+                        <img id="cropperImage" src="" alt="Crop image">
+                        <div class="cropper-controls">
+                            <button id="savePhotoBtn" class="btn btn-primary">Save Photo</button>
+                            <button id="cancelCropBtn" class="btn btn-secondary">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <form id="profileForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="profileFirstName">First Name</label>
+                            <input type="text" id="profileFirstName" name="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="profileLastName">Last Name</label>
+                            <input type="text" id="profileLastName" name="lastName" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profileEmail">Email</label>
+                        <input type="email" id="profileEmail" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profilePasswordHint">Password Hint</label>
+                        <input type="text" id="profilePasswordHint" name="passwordHint">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="js/logging.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

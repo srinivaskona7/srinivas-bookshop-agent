@@ -1,0 +1,35 @@
+{
+  "name": "srinivas-bookshop-backend",
+  "version": "1.0.0",
+  "description": "Backend for Srinivas Bookshop",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node -r ./instrumentation.js server.js",
+    "dev": "NODE_ENV=development node -r ./instrumentation.js server.js",
+    "test": "jest"
+  },
+  "dependencies": {
+    "express": "latest",
+    "mongoose": "latest",
+    "jsonwebtoken": "latest",
+    "bcryptjs": "latest",
+    "multer": "latest",
+    "winston": "latest",
+    "morgan": "latest",
+    "swagger-ui-express": "latest",
+    "swagger-jsdoc": "latest",
+    "cors": "latest",
+    "dotenv": "latest",
+    "@opentelemetry/sdk-node": "latest",
+    "@opentelemetry/auto-instrumentations-node": "latest",
+    "@opentelemetry/exporter-trace-otlp-http": "latest",
+    "@opentelemetry/resources": "latest",
+    "@opentelemetry/semantic-conventions": "latest"
+  },
+  "devDependencies": {
+    "jest": "latest",
+    "supertest": "latest",
+    "mongodb-memory-server": "latest"
+  }
+}
